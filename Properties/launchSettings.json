@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CSharp-OpenAI-LangChain": {
+      "commandName": "Project",
+      "commandLineArgs": "ask -sys \"\" -verbose",
+      "environmentVariables": {
+        "AZURE_OPENAI_APIKEY": "955f922c096e4b32b36264ff5f5d9dc2"
+      }
+    }
+  }
+}
