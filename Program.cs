@@ -3,8 +3,21 @@
 using CSharp_OpenAI_LangChain;
 using LangChain.Providers;
 using LangChain.Providers.Azure;
+using Microsoft.Extensions.Configuration;
 
-var app = ConsoleApp.Create(args);
+var builder = ConsoleApp.CreateBuilder(args);
+
+
+builder.ConfigureHostConfiguration(c =>
+{
+    c.AddUserSecrets<Program>();
+});
+
+builder.ConfigureServices((ctx, services) =>
+{
+    
+});
+var app = builder.Build();
 app.AddCommands<DevOpsLangChain>();
 app.Run();
 
@@ -14,6 +27,16 @@ Console.ReadLine();
 
 public class DevOpsLangChain : ConsoleAppBase
 {
+    private readonly string apiKey;
+    private readonly string endpoint;
+
+    public DevOpsLangChain(IConfiguration config)
+    {
+        
+        this.apiKey = config.GetValue<string>("AZURE_OPENAI_APIKEY") ?? throw new InvalidProgramException("Environment Variable APIKEY must contain the Azure Open AI apikey to use"); 
+        this.endpoint = config.GetValue<string>("AZURE_OPENAI_ENDPOINT") ?? "https://dgopenai-us.openai.azure.com/openai/deployments/gpt4functioncalling";
+    }
+
     [Command("ask", "Ask ChatGPT for assistance")]
     public async Task Run([Option("sys", "System message to prime ChatGPT with")] string? systemMessage = null, [Option("msg", "Message to send to ChatGpt")] string? humanMessage =null, [Option("verbose")]bool verbose = false)
     {
@@ -26,10 +49,7 @@ public class DevOpsLangChain : ConsoleAppBase
         //Console.WriteLine(res.StargazersCount);
         //Console.ReadLine();
 
-
-
-        string apiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_APIKEY") ?? throw new InvalidProgramException("Enviroment Variable APIKEY must contain the Azure Open AI apikey to use");
-        string endpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT") ?? "https://dgopenai-us.openai.azure.com/openai/deployments/gpt4functioncalling";
+               
         using var httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler(), verbose));
 
 

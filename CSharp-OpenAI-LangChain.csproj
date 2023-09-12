@@ -7,12 +7,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>devopsai</AssemblyName>
+    <UserSecretsId>cc6afc14-8d04-4b37-a30f-4747e57a131a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
     <PackageReference Include="LangChain" Version="0.10.0" />
     <PackageReference Include="LangChain.Providers.Azure" Version="0.10.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
     <PackageReference Include="Octokit" Version="7.1.0" />
   </ItemGroup>
