@@ -33,3 +33,5 @@ devopsai ask -sys "" -msg "Which of the following packages have the most github 
 The MediatR package, hosted by user "jbogard" on GitHub, has 9902 stars. On the other hand, the Moq package, hosted by the "moq" organization on GitHub, has 5388 stars. Therefore, the MediatR package has more Github stars.
 ```
 
+# Release
+`dotnet pack -p:configuration=release -p:PackageVersion=1.0.2`

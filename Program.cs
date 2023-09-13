@@ -21,9 +21,6 @@ var app = builder.Build();
 app.AddCommands<DevOpsLangChain>();
 app.Run();
 
-#if DEBUG
-Console.ReadLine();
-#endif
 
 public class DevOpsLangChain : ConsoleAppBase
 {

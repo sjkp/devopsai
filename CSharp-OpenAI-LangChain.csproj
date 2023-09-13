@@ -8,6 +8,9 @@
     <Nullable>enable</Nullable>
     <AssemblyName>devopsai</AssemblyName>
     <UserSecretsId>cc6afc14-8d04-4b37-a30f-4747e57a131a</UserSecretsId>
+  <PackAsTool>true</PackAsTool>
+    <ToolCommandName>devopsai</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
