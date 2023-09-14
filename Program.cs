@@ -30,7 +30,7 @@ public class DevOpsLangChain : ConsoleAppBase
     public DevOpsLangChain(IConfiguration config)
     {
         
-        this.apiKey = config.GetValue<string>("AZURE_OPENAI_APIKEY") ?? throw new InvalidProgramException("Environment Variable APIKEY must contain the Azure Open AI apikey to use"); 
+        this.apiKey = config.GetValue<string>("AZURE_OPENAI_APIKEY") ?? throw new InvalidProgramException("Environment Variable AZURE_OPENAI_APIKEY must contain the Azure Open AI apikey to use"); 
         this.endpoint = config.GetValue<string>("AZURE_OPENAI_ENDPOINT") ?? "https://dgopenai-us.openai.azure.com/openai/deployments/gpt4functioncalling";
     }
 
