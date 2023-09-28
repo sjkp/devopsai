@@ -4,6 +4,7 @@ using CSharp_OpenAI_LangChain;
 using LangChain.Providers;
 using LangChain.Providers.Azure;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 var builder = ConsoleApp.CreateBuilder(args);
 
@@ -46,6 +47,7 @@ public class DevOpsLangChain : ConsoleAppBase
     {
         var nugetService = new NugetService();
         var githubService = new GithubService();
+        var cveService = new CveLookupService();
         //var res = await nugetService.GetPackageAsync("ardalis.liststartupservices", "1.1.4");
         //Console.WriteLine(res.Metadata.Authors);
 
@@ -62,6 +64,7 @@ public class DevOpsLangChain : ConsoleAppBase
 
         model.AddGlobalFunctions(nugetService.AsFunctions(), nugetService.AsCalls());
         model.AddGlobalFunctions(githubService.AsFunctions(), githubService.AsCalls());
+        model.AddGlobalFunctions(cveService.AsFunctions(), cveService.AsCalls());
         if (project != null)
         {
             var devopsService = new AzureDevOpsService(new Uri(GetEnvironmentValue("AZURE_DEVOPS_URI")), project, GetEnvironmentValue("AZURE_DEVOPS_PAT"));

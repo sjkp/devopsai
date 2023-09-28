@@ -26,7 +26,10 @@ namespace CSharp_OpenAI_LangChain
             [Description("The title for the workitem")]
             string title,
             [Description("The description of the workitem")]
-            string description, CancellationToken cancellationToken);
+            string description,
+            [Description("The type of work item, can be Bug, Task, Feature, User Story, Product Backlog Item, or Epic")]
+            string type,
+            CancellationToken cancellationToken);
 
         [Description("Get workitems references that are linked to a build")]
         Task<List<ResourceRef>> GetPipelineRun(
@@ -58,7 +61,7 @@ namespace CSharp_OpenAI_LangChain
             return workitem;
         }
 
-        public async Task<WorkItem> CreateWorkItem(string title, string description, CancellationToken cancellationToken)
+        public async Task<WorkItem> CreateWorkItem(string title, string description, string type, CancellationToken cancellationToken)
         {
             JsonPatchDocument patchDocument = new JsonPatchDocument();
 
@@ -76,7 +79,7 @@ namespace CSharp_OpenAI_LangChain
                 new JsonPatchOperation()
                 {
                     Operation = Operation.Add,
-                    Path = "/fields/Microsoft.VSTS.TCM.ReproSteps",
+                    Path = "/fields/System.Description",
                     Value = description
                 }
             );
@@ -103,7 +106,7 @@ namespace CSharp_OpenAI_LangChain
 
             try
             {
-                WorkItem result = await workItemTrackingHttpClient.CreateWorkItemAsync(patchDocument, project, "Bug");
+                WorkItem result = await workItemTrackingHttpClient.CreateWorkItemAsync(patchDocument, project, type);
 
                 Console.WriteLine("Bug Successfully Created: Bug #{0}", result.Id);
 
