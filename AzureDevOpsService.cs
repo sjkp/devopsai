@@ -1,4 +1,5 @@
-﻿using Microsoft.TeamFoundation.Build.WebApi;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.TeamFoundation.Build.WebApi;
 using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
@@ -36,9 +37,14 @@ namespace CSharp_OpenAI_LangChain
             [Description("The build id")]
             int buildId, CancellationToken cancellationToken);
 
+        [Description("Get all workitems based on a Azure DevOps WIQL query")]
+        Task<IEnumerable<WorkItem>> QueryWorkItems(
+            [Description("The WIQL query that should be executed")]
+            string query, CancellationToken cancellationToken);
+
         [Description("Returns information about a workitem stored in Azure DevOps")]
         Task<WorkItem> GetWorkItemInfo(
-            [Description("The workitemid")]
+            [Description("The workitem id")]
             int workItemId,            
             CancellationToken cancellationToken);
     }
@@ -46,6 +52,11 @@ namespace CSharp_OpenAI_LangChain
     {
         private readonly VssConnection connection;
         private readonly string project;
+
+        public AzureDevOpsService(IConfiguration configuration, string project) : this(new Uri(configuration["AZURE_DEVOPS_URI"]), project, configuration["AZURE_DEVOPS_PAT"])
+        {
+
+        }
 
         public AzureDevOpsService(Uri orgUrl, string project, string personalAccessToken)
         {
@@ -56,9 +67,26 @@ namespace CSharp_OpenAI_LangChain
         public async Task<WorkItem> GetWorkItemInfo(int workItemId, CancellationToken cancellationToken)
         {
             WorkItemTrackingHttpClient witClient = connection.GetClient<WorkItemTrackingHttpClient>();
-            WorkItem workitem = await witClient.GetWorkItemAsync(workItemId);
+            var workitem = await witClient.GetWorkItemAsync(workItemId);
 
             return workitem;
+        }
+
+        public async Task<List<WorkItem>> GetWorkItemsInfo(IEnumerable<int> workItemId, CancellationToken cancellationToken)
+        {
+            WorkItemTrackingHttpClient witClient = connection.GetClient<WorkItemTrackingHttpClient>();
+            var workitem = await witClient.GetWorkItemsAsync(workItemId);
+
+            return workitem;
+        }
+
+        public async Task<IEnumerable<WorkItem>> QueryWorkItems(string query, CancellationToken cancellationToken)
+        {
+            var witClient = connection.GetClient<WorkItemTrackingHttpClient>();
+            var wiql = new Wiql() { Query = query };
+            var res = await witClient.QueryByWiqlAsync(wiql);
+
+            return await GetWorkItemsInfo(res.WorkItems.Select(s => s.Id), cancellationToken);
         }
 
         public async Task<WorkItem> CreateWorkItem(string title, string description, string type, CancellationToken cancellationToken)

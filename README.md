@@ -59,5 +59,30 @@ You can find more details about this workitem by visiting this [link](https://de
 ```
 
 
+## Example 4 (Azure DevOps WIQL)
+```
+devopsai ask -sys "" -msg "List all azure devops workitems items in a markdown table with System.Title and Microsoft.VSTS.Scheduling.StoryPoints from the project GPTReviewTest" -project GPTReviewTest -verbose
+```
+
+**RESULT**
+
+| Work Item ID | System Title | Story Points |
+| -----------: | ------------ | ------------ |
+|          14 | Test story | 4 |
+|          15 | this is a test | 4 |
+|          16 | CVE-2023-4697: usememos/memos vulnerable to privilege escalation | 10 |
+|          17 | An IT Poem User Story | 10 |
+|          18 | An IT Poetry User Story | 10 |
+|          19 | A Poem - Journey in the IT World | 10 |
+
 # Release
 `dotnet pack -p:configuration=release -p:PackageVersion=1.0.2`
+
+## Example 5 (Azure DevOps WIQL)
+```
+devopsai ask -sys "" -msg "List all azure devops workitems items in a markdown table with Title and StoryPoints from the project GPTReviewTest in iterationpath GPTReviewTest\iteration 1" -project GPTReviewTest -verbos
+```
+| ID   | Title                                 | Story Points |
+|------|---------------------------------------|--------------|
+| 14   | Test story                            | 4            |
+| 19   | A Poem - Journey in the IT World      | 10           |

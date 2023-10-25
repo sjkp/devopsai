@@ -15,8 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
-    <PackageReference Include="LangChain" Version="0.10.0" />
-    <PackageReference Include="LangChain.Providers.Azure" Version="0.10.0" />
+    <PackageReference Include="LangChain" Version="0.10.3" />
+    <PackageReference Include="LangChain.Providers.Azure" Version="0.10.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="16.205.1" />
     <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
